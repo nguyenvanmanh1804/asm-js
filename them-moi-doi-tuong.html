@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xây dựng chức năng thêm mới sản phẩm</title>
+    <script src="sanPham.js"></script>
+    <script src="hotro.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        .them-moi-san-pham {
+            width: 50%;
+            border: 1px solid #ddd;
+            margin: auto;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 2px 2px 5px #ddd;
+        }
+
+        .them-moi-san-pham label,
+        input {
+            width: 100%;
+            display: block;
+        }
+
+        .them-moi-san-pham label {
+            margin-top: 20px;
+
+        }
+
+        .them-moi-san-pham input {
+            margin-top: 5px;
+            padding: 10px 20px;
+            border: 1px solid #444444;
+            border-radius: 5px;
+        }
+
+        .them-moi-san-pham button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #F7442E;
+        }
+
+        .them-moi-san-pham button:hover {
+            background-color: #C53624;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="them-moi-san-pham">
+        <label for="hinhAnh">Hình ảnh sản phẩm</label>
+        <input type="text" id="hinhAnh">
+
+        <label for="ten">Tên sản phẩm</label>
+        <input type="text" id="ten">
+
+        <label for="giaGoc"> Giá Gốc</label>
+        <input type="number" id="giaGoc">
+
+        <label for="phanTramGiamGia">Giảm giá (0 - 1) %</label>
+        <input type="number" id="phanTramGiamGia">
+
+        <label for="khuVuc"> Khu Vực</label>
+        <input type="text" id="khuVuc">
+
+        <button onclick="onClickTaoSanPham()"> Tạo sản phẩm </button>
+
+    </div>
+    <script>
+
+        var danhSachSanPham = JSON.parse(localStorage.getItem('danhSachSanPham'));
+        if (danhSachSanPham == null)
+            danhSachSanPham = new Array();
+        console.log(danhSachSanPham);
+
+        function onClickTaoSanPham() {
+            console.log('gọi hàm onClickTaoSanPham()');
+            /* 1.Truy cập các node để lấy được dữ liệu */
+            var nodeHinhAnh = document.getElementById('hinhAnh');
+            var hinhAnh = nodeHinhAnh.value;
+            console.log('Hình ảnh là: ' + hinhAnh);
+            nodeHinhAnh.value = '';
+
+            var nodeTen = document.getElementById('ten');
+            var ten = nodeTen.value;
+            console.log('Tên là : ' + ten);
+            nodeTen.value = '';
+
+            var nodeGiaGoc = document.getElementById('giaGoc');
+            var giaGoc = nodeGiaGoc.value;
+            console.log('Giá gốc là : ' + giaGoc);
+            nodeGiaGoc.value = '';
+
+            var nodePhanTramGiamGia = document.getElementById('phanTramGiamGia');
+            var phanTramGiamGia = nodePhanTramGiamGia.value;
+            console.log('Phần trăm giảm giá là: ' + phanTramGiamGia);
+            nodePhanTramGiamGia.value = '';
+
+            var nodeKhuvuc = document.getElementById('khuVuc');
+            var khuVuc = nodeKhuvuc.value;
+            console.log('Khu vực là: ' + khuVuc);
+            nodeKhuvuc.value = '';
+
+            /* 2.Tạo ra các đối tượng từ các dữ liệu người dùng nhập vào  */
+            var sanPham = taoDoiTuongSanPham(hinhAnh, ten, giaGoc, phanTramGiamGia, khuVuc, null);
+            console.log(sanPham);
+            console.log('Tên của sản phẩm nhập vào là ' + sanPham.ten + ' giá bán của sản phẩm là: ' + sanPham.tinhGiaBan());
+
+            /* 3. Đưa sản phẩm vào danh sách  */
+            danhSachSanPham.push(sanPham);
+            console.log('Danh sách các sản phẩm là: ');
+            console.log(danhSachSanPham);
+
+            /* Lưu trữ danh sách sản phẩm xuống local storage */
+            var jsonDanhSachSanPham = JSON.stringify(danhSachSanPham);
+            localStorage.setItem('danhSachSanPham', jsonDanhSachSanPham);
+
+        }
+    </script>
+</body>
+
+</html>
